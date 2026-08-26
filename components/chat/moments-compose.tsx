@@ -19,6 +19,7 @@ export function MomentsCompose({ onClose, onPublished }: Props) {
     const [photoAssetId, setPhotoAssetId] = useState<string | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
     const [photoDesc, setPhotoDesc] = useState("");
+    const [photoUseReferenceImage, setPhotoUseReferenceImage] = useState(true);
     const [location, setLocation] = useState("");
     const [locationDraft, setLocationDraft] = useState("");
     const [mentionIds, setMentionIds] = useState<Set<string>>(new Set());
@@ -172,6 +173,7 @@ export function MomentsCompose({ onClose, onPublished }: Props) {
             content,
             photoUrl: photoAssetId ? `asset://${photoAssetId}` : undefined,
             photoDescription: photoDesc.trim() || undefined,
+            photoUseReferenceImage,
             visibility: visibleCharIds,
             location: location || undefined,
         });
@@ -237,6 +239,20 @@ export function MomentsCompose({ onClose, onPublished }: Props) {
                             </button>
                         )}
                     </div>
+                    {photoPreview && (
+                        <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8 }}>
+                            <input
+                                type="checkbox"
+                                id="use-char-ref"
+                                checked={photoUseReferenceImage}
+                                onChange={e => setPhotoUseReferenceImage(e.target.checked)}
+                                style={{ width: 16, height: 16 }}
+                            />
+                            <label htmlFor="use-char-ref" style={{ fontSize: 14, color: "var(--c-text-secondary)" }}>
+                                使用角色参考图（如已配置）
+                            </label>
+                        </div>
+                    )}
                     {!photoPreview && (
                         <input
                             value={photoDesc || ""}
